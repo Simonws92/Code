@@ -1,1 +1,4 @@
 A society based AI where each character have choices. Choices must be optimized so that the society can survive. (WIP).
+
+Society main is the main file.
+Dependencies: brain, COOP_AI, new_Dense, new_Dense_fitness
