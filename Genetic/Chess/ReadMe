@@ -1,1 +1,4 @@
+Main file: chess_game
+Dependencies: brain, chess_rules
+
 Early WIP chess AI
