@@ -1,1 +1,4 @@
+Main file: snake
+Dependencies: brain, game_rules
+
 Genetic snake AI to chase after food. (Work in progress).
