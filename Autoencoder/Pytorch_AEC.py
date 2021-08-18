@@ -39,13 +39,11 @@ dataloader = torch.utils.data.DataLoader(dataset,batch_size=2, shuffle=True, pin
 
 
 
-######################################
-#    Part II : Write the Neural Net  #
-######################################
-torch.cuda.empty_cache()
+#######################################
+###### Initialize neural network ######
+#######################################
 
-
-class Mnet(nn.Module):
+class network(nn.Module):
     def __init__(self):
         conv_type = "classic"
         AE = True
@@ -81,7 +79,7 @@ class Mnet(nn.Module):
         self.fc_mom = 0
         self.batch_nr = 0
         
-        super(Mnet,self).__init__()
+        super(network,self).__init__()
         
         "Conv: input channels, output channels, filter size "
         "conv_2B{} etc is for convolution of multiple filter sizes"
@@ -315,7 +313,7 @@ if reset == True:
     #cec_loss = nn.CrossEntropyLoss() # cross entropy probability
     #cec_loss = nn.MSELoss()
     cec_loss = nn.L1Loss()
-    model = Mnet()
+    model = network()
     
     parameters = model.parameters()
     
@@ -331,9 +329,7 @@ optimizer = optim.Adam( model.parameters(), lr=0.0001, weight_decay=0)
 
 "GPU training"
 if GPU_training == True:
-    mnet = Mnet()
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    mnet.to(device)
     model.to(device)
 
 if TEST == True:
