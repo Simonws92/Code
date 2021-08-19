@@ -489,9 +489,8 @@ model.fc_mom = [ dense_fc(model.H), dense_fc(model.H), dense_fc(model.H) ]
 
 "GPU training"
 if GPU_training == True:
-    network = network()
+    model = network()
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    network.to(device)
     model.to(device)
 
 if TEST == True:
