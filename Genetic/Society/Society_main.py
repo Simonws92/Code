@@ -88,7 +88,8 @@ class Genetic:
         self.old_pop = 0
         self.avg_age = []
 
-        
+        self.death_by_hunger = []
+        self.death_by_age    = []
     
     def define_char(self,H, NR_CH, CH_W = [], CH_B = [], CH_money = [],
                     CH_edu = [], CH_food = [], CH_fitness = [], CH_breed = [], CH_age=[] ):
@@ -161,12 +162,21 @@ class Genetic:
             if self.CH_food[i] > 0 and self.CH_age[i] < 200 + random_nr:
                 #print("Food:", self.CH_food[i], i)
             
-                
+                temp = np.reshape( self.CH_W_3 , (6,1) )
                 x = np.array([[self.CH_money[i], self.CH_edu[i], self.CH_food[i],self.invest, self.CH_age[i] ]]).T #Must be a N x 1 matrix
+                x = np.concatenate((x, np.tanh(temp / np.average(temp)) ))
+                
+                x = np.reshape( x , (5+6,1) )
                 
                 z,choices = nd_F.feedforward(1,x, self.H, self.CH_W[i], self.CH_B[i],0, H_act)
                 
                 max_choice = max(choices[-1])
+                
+                ''' Characters choice will be taken into consideration
+                    with the importance of the s.CH_W_3 weights
+                '''
+                
+                
                 #print(max_choice, "Choice")
                 if max_choice == choices[-1][0]: #First option: Go to school
                     #print("Go to school")
@@ -226,39 +236,42 @@ class Genetic:
                 if self.CH_food[i] > 0:
                     self.CH_age[i]+=1
                     
-                    Survived_W_2.append( self.CH_W_2[i])
-                    Survived_B_2.append( self.CH_B_2[i])
-                    Survived_W.append( self.CH_W[i] )
-                    Survived_B.append( self.CH_B[i] )
-                    Survived_money.append( self.CH_money[i] )
-                    Survived_edu.append( self.CH_edu[i] )
-                    Survived_food.append( self.CH_food[i] )
-                    Survived_fitness.append( self.CH_fitness[i] )
-                    Survived_age.append(self.CH_age[i])
-                    #Survived_breed_point etc..
+                    if self.CH_age[i] >= 200 + random_nr:
+                        self.death_by_age[-1] += 1
+                    
+                    else:
+                        Survived_W_2.append( self.CH_W_2[i])
+                        Survived_B_2.append( self.CH_B_2[i])
+                        Survived_W.append( self.CH_W[i] )
+                        Survived_B.append( self.CH_B[i] )
+                        Survived_money.append( self.CH_money[i] )
+                        Survived_edu.append( self.CH_edu[i] )
+                        Survived_food.append( self.CH_food[i] )
+                        Survived_fitness.append( self.CH_fitness[i] )
+                        Survived_age.append(self.CH_age[i])
+                        #Survived_breed_point etc..
                     
                     
                 else:
                     pass
                     #print("Character", i, " death by hunger")
                     nr_dead += 1
+                    self.death_by_hunger[-1] += 1
             else:
                 print("Character", i, " was dead")
-                if self.CH_age[i] <=0:
-                    pass
+                if self.CH_age[i] >= 200 + random_nr:
                     print("You died of old age")
                     
                 if self.CH_food[i] <=0:
-                    pass
                     print("You died of hunger...")
         
         print("Number of survivors:",len(Survived_W))
-        print("School: ", school)
-        print("Work: ", work)
-        print("Buy: ", buy)# / (og_len*5))
-        print("Breed: ", breed)# / (og_len*5))
-        print("Invest: ", invest)# / (og_len*5))
-        print("Death by hunger: ", nr_dead)
+#        print("School: ", school)
+#        print("Work: ", work)
+#        print("Buy: ", buy)# / (og_len*5))
+#        print("Breed: ", breed)# / (og_len*5))
+#        print("Invest: ", invest)# / (og_len*5))
+#        print("Death by hunger: ", nr_dead)
         self.old_pop = len(self.CH_food)
         
         return Survived_W, Survived_B, Survived_W_2, Survived_B_2, Survived_money, \
@@ -280,7 +293,7 @@ class Genetic:
         NR_children = 0
         breed_list = [ i  for i in range(NR_CH) if self.CH_breed[i]==1 ]
         if sum( self.CH_breed) >= 2:
-            print(breed_list)
+            #print(breed_list)
             nr_children = int(len(breed_list)/2)
             #print(nr_children, "number of children")
             
@@ -331,7 +344,7 @@ class Genetic:
             "Make it so that the parents can decide how many children will be born"
             NR_children = 4 + int(self.invest / 20) #Each parent breeds a number of children
             NR_children = min( NR_children , 10) #Max 10 children. 
-            print("NR of children born:" , NR_children)
+            #print("NR of children born:" , NR_children)
             for J in range(NR_children): #How many children do you want each pair to make
                 
                 #The first weights
@@ -431,7 +444,8 @@ class Genetic:
             print("Time", t)
             self.total_born.append(0)
             
-            #old_nr_ch = len(Survived_W)
+            self.death_by_age.append(0)
+            self.death_by_hunger.append(0)
             
             if len(self.CH_food) == 0: #Extinction
                 print("Extinction")
@@ -519,7 +533,10 @@ class Genetic:
                 "Update fitness function"
                 self.CH_W_3, self.CH_B_3, _ = \
                 nd_F.backpropagation(self.H_3, new_F, new_f, np.ones((1,max_ch)) , self.CH_W_3, self.CH_B_3,lr=0.01,H_act=H_act,delta_class='', F=Fitness_cost, COST='fit')
-                #print(self.CH_W_3)
+                
+                ''' Weights in self.CH_W_3 represents importance of stats in X
+                '''
+                
                 ##################################
                 ###### End fitness function ######
                 ##################################
@@ -550,7 +567,8 @@ MUTATION_COEFF = 0.001
 
 Input = 5 #edu, money, food, invest, age
 Output = 5 #school, work, buy food, breed, invest
-H = [Input, 20,Output] #1 input, 2 hidden, 1 output
+nr_stats_prio = 6
+H = [Input + nr_stats_prio, 20,Output] #1 input, 2 hidden, 1 output
 
 Input_2  = 3
 Output_2 = 1 #Choose whom to breed with, using the same input except age
