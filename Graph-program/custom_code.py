@@ -49,7 +49,6 @@ class create_fc_custom(nn.Module):
     
 
 def create_import_wrapper( network_type ):
-    print("in here")
     return create_resnet18()
 
 
