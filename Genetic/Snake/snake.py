@@ -212,7 +212,7 @@ end = time.time()
 print(end - start)
 
 
-"Run this code when closing the screen otherwise it will crash"s
+"Run this code when closing the screen otherwise it will crash"
 pygame.display.quit()
 
 
