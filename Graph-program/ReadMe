@@ -1,1 +1,7 @@
-A graph program to create custom neural networks
+A graph-based program to create custom neural networks
+
+- Main program: Graph_computation_subclass.py
+
+- Dependencies: node_class.py, graph_network_templates.py
+
+- To load custom code use custom_code.py
