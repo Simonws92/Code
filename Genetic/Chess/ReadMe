@@ -1,4 +1,14 @@
 Main file: chess_game
 Dependencies: brain, chess_rules
 
-Early WIP chess AI
+
+To implement:
+
+Chess:
+-En Passant
+-Castling
+-Check and Checkmate
+
+AI:
+-Free for all versus
+-Sequence prediction
