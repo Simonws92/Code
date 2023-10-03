@@ -1,4 +1,4 @@
-Dataset with images of cloud, fog, rain, clear and snow.
+Dataset with images of 1) cloud, 2) fog, 3) rain, 4) clear and 5) snow.
 
 Model 1: Standard convolution model: conv,2x pool, conv 2x pool, conv pool -> FC
 90% accuracy with 300 epochs of learning rate 0.0001
