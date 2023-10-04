@@ -1,2 +1,5 @@
 
-A short interview project for Scania to classify weather images using convolutional neural networks.
+A short interview project for Scania to classify weather images using various convolutional neural networks.
+
+Main file: Scania_assignment
+Dependencies: Scania_models, Scania_data
