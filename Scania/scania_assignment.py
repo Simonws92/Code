@@ -84,26 +84,27 @@ def shuffle_data(X,Y, batch_size):
 
 
 if True:
-
+    
+    "Model must be initiated before training/pretraining can start"
     print("Initiating models")
-    CV_model = sm.model(NUM_CAT)
+    #CV_model = sm.model(NUM_CAT)
+    CV_model = sm.resnet(NUM_CAT)
     
     "If pretrained model exists, we may use them instead"
     RESET = False
     
     "Decide if trained model should replace old model"
     REPLACE_MODEL = True
+    
+    "Model weights are loaded for pretrained purposes"
     if RESET == False:
-        PATH = "C:/Users/Simon/Desktop/CV_model_1"
+        PATH = "C:/Users/Simon/Desktop/CV_resnet_model_1"
         CV_model = load_model(CV_model,PATH)
         
-    else:
-        ### Initiate logs ###
-        pass
     Loss = []
     avg_Loss = []
-        
     
+    "Low momentum due to high oscilation from Adam optimizer"
     b1=0.6
     b2=0.999
     optimizer = torch.optim.Adam(CV_model.parameters(), lr=0.00001 ,betas=(b1,b2))
@@ -123,7 +124,7 @@ if True:
     
     ### Training Start ###
     for e in range(epochs):
-        print("Epoch:", e)
+        #print("Epoch:", e)
         
         "Data is shuffled at every epoch"
         X,Y = shuffle_data(X_array,Y_array, len(X_images) )
@@ -170,7 +171,7 @@ if True:
 
                     Confusion_matrix[index_correct,index_predict]+=1
                     
-        print("Avg epoch loss:", epoch_avg_loss)
+        print("Avg epoch loss:", epoch_avg_loss, e)
         avg_Loss.append( epoch_avg_loss )
 
 
@@ -206,7 +207,7 @@ def save_model(model,PATH):
     torch.save( model.state_dict(), PATH )
 
 if REPLACE_MODEL == True:
-    PATH = "C:/Users/Simon/Desktop/CV_model_1"
+    PATH = "C:/Users/Simon/Desktop/CV_resnet_model_1"
     save_model(CV_model, PATH)
 
 
