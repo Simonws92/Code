@@ -123,15 +123,14 @@ def save_images(Images, name):
         pickle.dump(Images, file)
 
 
-medium_PATH = "C:/Users/Simon/downloads/scania_dataset/Task_1/dataset/"
-#big_PATH    = "C:/Users/Simon/downloads/scania_dataset/Task_1/dataset_big/"
+PATH = "C:/Users/Simon/downloads/scania_dataset/Task_1/dataset/"
 
 compiled_images = "compiled_images_merged"
 target          = "target_merged"
 
 
 
-Images, Target = preprocess_images(medium_PATH)
+Images, Target = preprocess_images(PATH)
 
 save_images(Images, compiled_images )
 save_images(Target, target )
