@@ -7,4 +7,12 @@ Model 1: Standard CNN model: conv-> 2x pool-> conv-> 2x pool-> conv-> pool -> FC
 Model 2: Resnet CNN model with 3x resnet blocks -> FC.
 92% accuracy with 200 epochs. Learning rate 0.0001.
 
+
 Datasets used was an amalgation between ... and ...
+
+
+Results may be improved by balancing the number of images for each category in the dataset.
+Model 2 had significantly faster training compared to model 1's standard CNN.
+
+
+The confusion matrices shows the correctly guessed images (diagonal), the model's guess (columns) with corresponding correct answers (rows).
