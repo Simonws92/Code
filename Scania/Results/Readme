@@ -17,3 +17,4 @@ Model 2 had significantly faster training compared to model 1's standard CNN.
 
 
 The confusion matrices shows the correctly guessed images (diagonal), the model's guess (columns) with corresponding correct answers (rows).
+The loss plot shows the second model's loss (y-axis) per epoch (x-axis).
