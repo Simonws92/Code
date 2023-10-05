@@ -66,12 +66,13 @@ def breed(male, female, male_bias, female_bias, NR_CH, MUTATION_COEFF, H):
             
             mutation_B = np.random.randint(-1,2, H[i+1]) * MUTATION_COEFF #mutation vector for the bias
             
-            for row in range(H[i+1]):
-                b[row] = np.random.choice(( male_bias[i][row], female_bias[i][row] ))
-                #b[row] = np.random.choice((4,1))
-                
-                for col in range(H[i]):
-                    w[row, col] = np.random.choice(( male[i][row,col] , female[i][row,col] ))
+            r = H[i+1]
+            c = H[i]
+            binary_matrix   = np.random.randint(0,1,(r,c))
+            binary_matrix_2 = np.mod( binary_matrix + 1 , 2 )
+            
+            b = male_bias[i] * binary_matrix[:,0] + female_bias[i] * binary_matrix_2[:,0]
+            w = male[i]*binary_matrix + female[i]*binary_matrix_2
                     
 
             W.append( w+mutation ) #New weight for a child with added mutation
