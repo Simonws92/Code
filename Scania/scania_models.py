@@ -64,21 +64,7 @@ class model(nn.Module):
         output   = self.softmax( self.FC_2.forward( output_1 ) )
         
         return output
-    
-    
-"""  
-class resnet_block(nn.Module):
-    def __init__(self):
-        super(resnet_block,self).__init__()
-        
-        def forward():
-            
-            self.conv_0
-            self.conv_1
-            x = x + x_og
-            return x
-"""
-    
+
 
 "loss 0.0284, ~92% accuracy on medium dataset, 200 epochs, lr 0.0001, b1 0.6"
 class resnet(nn.Module):
