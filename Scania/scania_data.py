@@ -90,14 +90,12 @@ def preprocess_images(main_PATH=None):
         temp_target = []
         
         folder_PATH = main_PATH + "{}".format(folder) + "/"
-        #folder_PATH = "C:/Users/Simon/downloads/scania_dataset/dataset/{}/".format(folder)
     
         for i,file in enumerate(os.listdir(folder_PATH)):
             
             file_PATH = folder_PATH + file
             img = Image.open(file_PATH)
             
-            #print(file)
             img    = resize( np.array(img) )
             target = one_hot
             
@@ -122,15 +120,18 @@ def save_images(Images, name):
     with open(name, "wb") as file:
         pickle.dump(Images, file)
 
+def main():
+        
+        PATH = "C:/Users/Simon/downloads/scania_dataset/Task_1/dataset/"
+        compiled_images = "compiled_images_merged"
+        target          = "target_merged"
+        
+        Images, Target = preprocess_images(PATH)
+        
+        save_images(Images, compiled_images )
+        save_images(Target, target )
 
-PATH = "C:/Users/Simon/downloads/scania_dataset/Task_1/dataset/"
-
-compiled_images = "compiled_images_merged"
-target          = "target_merged"
 
 
-
-Images, Target = preprocess_images(PATH)
-
-save_images(Images, compiled_images )
-save_images(Target, target )
+if __name__ == "__main__":
+    main()
