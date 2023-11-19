@@ -89,8 +89,8 @@ def define_models():
         
         obj_list_dict[ '{}'.format(name_obj) ] = obj_dict
         
-
     return obj_list, traversal_order, obj_list_dict
+
 
 """
 done
@@ -113,13 +113,11 @@ class draw_class():
         "up_down: -1 for going down or +1 for going up, 0 if same level"
         "creates a tree-like diagram based on class-node objects"
         
-        
         "checks if current obj have parent"
         parent    = obj_list_dict[traversal_order[i]]["model"].parent
         parent_id = obj_list_dict[parent]["id"]
         child_id = obj_list_dict[traversal_order[i]]["id"]
         child = traversal_order[i]
-        
         
         "Create a circle for the main parent"
         circle_info = (self.level, parent)
@@ -137,19 +135,17 @@ class draw_class():
             "render a child-circle"
             self.circles_created.append( child_circle_info )
             
-            
             parent_pos = obj_list_dict[parent]["pos"]
             x_pos = parent_pos + ( child_id * 3**self.level )
             
             child_circle = plt.Circle(( x_pos , self.level ), 0.2, color='b' )
             self.ax.add_patch( child_circle )
             
-        
-        "need a unique layer id..."
         connection = (self.level, parent_id, child_id)
         
         if connection not in self.connections_created:
-            
+
+            "Parental graph-tree relationship"
             self.connections_created.append(connection)
             x_start, x_end = (x_pos,parent_pos)
             y_start, y_end = (self.level,self.level+1)
@@ -157,16 +153,10 @@ class draw_class():
             X = x_start, x_end
             Y = y_start, y_end
             
-            
-            
-            #self.ax.plot( label='Graph relationship')
-            #self.ax.legend()
-            
             plt.plot(X,Y , linewidth = 2,color='b')
+
             
-            
-            
-            "Second line plot:"
+            "Second line plot: Computational relationship"
             neighbor_pos = obj_list_dict[traversal_order[i+1]]["pos"]
             x_start, x_end = (x_pos,neighbor_pos)
             y_start, y_end = (self.level,self.level)
@@ -174,29 +164,17 @@ class draw_class():
             X = x_start, x_end
             Y = y_start, y_end
             
-            #self.ax.plot( label='Computational relationship')
-            #self.ax.legend()
-            
             plt.plot(X,Y , linewidth = 2,color='g')
             
-            
-        
         self.ax.set_ylim(ymax=3)
         self.ax.set_ylim(ymin=-1)
-        
         self.ax.set_xlim(xmax=8.5)
         self.ax.set_xlim(xmin=-0.5)
-        
         
         plt.show()
         plt.pause(1)
 
 
-
-
-
-
-"Can we use this for compiling traversal orders?"
 def traverse_graph_objects( inp, traversal_order, obj_list_dict ):
     
     n = len(traversal_order)
@@ -210,8 +188,6 @@ def traverse_graph_objects( inp, traversal_order, obj_list_dict ):
     
     
     for i in range( n-1 ):
-
-        
         current_count = traversal_order[i].count(".")
         older_count   = traversal_order[i-1].count(".")
         
@@ -232,15 +208,11 @@ def traverse_graph_objects( inp, traversal_order, obj_list_dict ):
             "top level"
             draw_object.level = max_level
         
-        
-        
         #temp_node will only be computed if its at baselevel
         temp_node   = obj_list_dict[traversal_order[i]]["model"]
         
         # Standard computation
         temp_parent = obj_list_dict[ temp_node.parent ]["model"]
-        
-        
         
         k = temp_node.node_id
         t,s = temp_parent.List_of_models[0][k]
@@ -311,10 +283,8 @@ def traverse_graph_objects( inp, traversal_order, obj_list_dict ):
                 except:
                     exec( "temp_parent.temp_output_{}  = edge_op.forward( inp )".format(t) )
                     
-        
         else:
             pass
-            #print("obj have no parent")
         
         inp = eval( "temp_parent.temp_output_{}".format(t) )
         output = inp
@@ -323,13 +293,12 @@ def traverse_graph_objects( inp, traversal_order, obj_list_dict ):
         if draw == True:
             draw_object.draw_tree( i, traversal_order , obj_list_dict, up_down )
         
-    print("Done")
     return output
 
 
 
 
-
+"Early WIP please ignore"
 def check_dim_compatibility( traversal_order, obj_list_dict ):
     out_dim = 0
     in_dim  = 0
