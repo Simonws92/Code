@@ -5,3 +5,5 @@ A graph-based program to create custom neural networks
 - Dependencies: node_class.py, graph_network_templates.py
 
 - To load custom code use custom_code.py
+
+- node_class_pre.py: Creates a traversal order for a graph-tree with respect to adjacency matrices and computes a feedforward graph network
