@@ -1,4 +1,24 @@
 
+A short project for Scania to classify weather images using various convolutional neural networks.
+
+Main file: scania_assignment
+Dependencies: scania_models, scania_data
+
+scania_data:
+1) Run this file to process images from a dataset of images to store as a list. This list will be saved as a pickle file.
+New paths must be provided prior.
+
+scania_assignment:
+2) Run this file to load the pickle file of images, initiate and start training the model.
+
+scania_models:
+A file with two different CNN models which are used when called from scania_assignment.
+
+
+###################################################################
+###################################################################
+###################################################################
+
 Dataset with images of 1) cloud, 2) fog, 3) rain, 4) clear and 5) snow.
 
 Model 1: Standard CNN model: conv-> 2x pool-> conv-> 2x pool-> conv-> pool -> FC
