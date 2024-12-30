@@ -1,0 +1,8 @@
+A small prototype for a continual learning algorithm for neural networks working on multiple tasks in sequence.
+
+The level sets of the cost function are orthogonal to the gradient update for the weights, meaning, when updating the weights
+  with orthogonal vectors wrt the gradient, the loss function remains static or converges.
+This has the benefit of changing parameter values without affecting performance of previous tasks.
+By updating the weights with the orthogonal gradient, we may fit weights in such a way that the model may learn both task A and task B
+  without encountering catastrophic forgetting.
+The orthogonal gradients are computed using the Gram-Schmidt method.
